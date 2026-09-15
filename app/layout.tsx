@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Header from "@/components/Header";
+import Sidebar from "@/components/Sidebar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Student Task Manager",
-  description: "Manage your daily student tasks easily",
+  title: "Task Manager",
+  description: "A simple Task Manager built with Next.js and TypeScript",
 };
 
 export default function RootLayout({
@@ -13,7 +15,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Header />
+
+        <div className="main-layout">
+          <Sidebar />
+
+          <main className="main-content">
+            {children}
+          </main>
+        </div>
+      </body>
     </html>
   );
 }
