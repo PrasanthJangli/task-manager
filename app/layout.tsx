@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 
 export const metadata: Metadata = {
-  title: "Task Manager",
-  description: "A simple Task Manager built with Next.js and TypeScript",
+  title: "Student Task Manager",
+  description: "Manage student tasks easily",
 };
 
 export default function RootLayout({
@@ -14,9 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>
-        <Header />
+        <Navbar />
 
         <div className="main-layout">
           <Sidebar />

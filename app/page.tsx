@@ -1,61 +1,139 @@
 import StatsCard from "@/components/StatsCard";
+import { tasks } from "@/data/tasks";
+import TaskChart from "@/components/TaskChart";
+export default function Home() {
+  const total = tasks.length;
 
-const tasks = [
-  {
-    id: 1,
-    title: "Learn Next.js",
-    status: "in-progress",
-  },
-  {
-    id: 2,
-    title: "Learn TypeScript",
-    status: "completed",
-  },
-  {
-    id: 3,
-    title: "Build Task Manager",
-    status: "pending",
-  },
-];
-
-export default function HomePage() {
-  const totalTasks = tasks.length;
-
-  const completedTasks = tasks.filter(
+  const completed = tasks.filter(
     (task) => task.status === "completed"
   ).length;
 
-  const pendingTasks = tasks.filter(
+  const pending = tasks.filter(
     (task) => task.status === "pending"
   ).length;
 
-  const inProgressTasks = tasks.filter(
+  const inProgress = tasks.filter(
     (task) => task.status === "in-progress"
   ).length;
 
+  const completionRate =
+    total > 0 ? Math.round((completed / total) * 100) : 0;
+
   return (
+    <main className="dashboard">
+      {/* Dashboard Header */}
+      <section className="dashboard-header">
+        <div>
+          <span className="dashboard-label">TASK MANAGER</span>
+
+          <h1>Dashboard</h1>
+
+          <p>
+            Track your tasks, monitor progress, and stay organized.
+          </p>
+        </div>
+
+        <div className="dashboard-summary">
+          <span>Overall Progress</span>
+          <strong>{completionRate}%</strong>
+        </div>
+      </section>
+
+      {/* Statistics */}
+      <section className="stats-container">
+        <StatsCard
+          title="Total Tasks"
+          value={total}
+        />
+
+        <StatsCard
+          title="Completed"
+          value={completed}
+        />
+
+        <StatsCard
+          title="Pending"
+          value={pending}
+        />
+
+        <StatsCard
+          title="In Progress"
+          value={inProgress}
+        />
+      </section>
+
+{/* Task Statistics Chart */}
+<section className="dashboard-section">
+  <div className="section-header">
     <div>
-      <h1>Dashboard</h1>
+      <span className="section-label">ANALYTICS</span>
 
-      <StatsCard
-        title="Total Tasks"
-        value={totalTasks}
-      />
+      <h2>Task Statistics</h2>
 
-      <StatsCard
-        title="Completed"
-        value={completedTasks}
-      />
-
-      <StatsCard
-        title="Pending"
-        value={pendingTasks}
-      />
-
-      <StatsCard
-        title="In Progress"
-        value={inProgressTasks}
-      />
+      <p>
+        Visual overview of your current task status.
+      </p>
     </div>
+  </div>
+
+  <TaskChart
+    completed={completed}
+    pending={pending}
+    inProgress={inProgress}
+  />
+</section>
+
+      {/* Task Overview */}
+      <section className="dashboard-section">
+        <div className="section-header">
+          <div>
+            <span className="section-label">WORKSPACE</span>
+
+            <h2>Task Overview</h2>
+
+            <p>
+              Recent tasks and their current status.
+            </p>
+          </div>
+
+          <span className="task-count">
+            {total} Tasks
+          </span>
+        </div>
+
+        <div className="task-overview">
+          {tasks.map((task) => (
+            <div
+              className="overview-row"
+              key={task.id}
+            >
+              <div className="overview-icon">
+                {task.status === "completed"
+                  ? "✓"
+                  : task.status === "in-progress"
+                  ? "→"
+                  : "○"}
+              </div>
+
+              <div className="overview-content">
+                <h3>{task.title}</h3>
+
+                <p>{task.description}</p>
+              </div>
+
+              <span
+                className={`status ${task.status}`}
+              >
+                {task.status === "in-progress"
+                  ? "In Progress"
+                  : task.status === "completed"
+                  ? "Completed"
+                  : "Pending"}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }
