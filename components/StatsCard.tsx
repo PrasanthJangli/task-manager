@@ -1,36 +1,45 @@
 import { Card, Statistic } from "antd";
 
-type StatsCardProps = {
+type StatisticItem = {
   title: string;
   value: number;
   progress?: number;
 };
 
+type StatsCardProps = {
+  statistics: StatisticItem[];
+};
+
 export default function StatsCard({
-  title,
-  value,
-  progress,
+  statistics,
 }: StatsCardProps) {
   return (
-    <Card className="modern-stats-card">
-      <div className="stats-card-top">
-        <span className="stats-card-title">
-          {title}
-        </span>
+    <>
+      {statistics.map((stat) => (
+        <Card
+          className="modern-stats-card"
+          key={stat.title}
+        >
+          <div className="stats-card-top">
+            <span className="stats-card-title">
+              {stat.title}
+            </span>
 
-        <span className="stats-card-dot" />
-      </div>
+            <span className="stats-card-dot" />
+          </div>
 
-      <Statistic value={value} />
+          <Statistic value={stat.value} />
 
-      {progress !== undefined && (
-        <div className="stats-card-progress">
-          <div
-            className="stats-card-progress-bar"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      )}
-    </Card>
+          {stat.progress !== undefined && (
+            <div className="stats-card-progress">
+              <div
+                className="stats-card-progress-bar"
+                style={{ width: `${stat.progress}%` }}
+              />
+            </div>
+          )}
+        </Card>
+      ))}
+    </>
   );
 }

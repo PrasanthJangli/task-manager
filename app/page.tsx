@@ -1,6 +1,8 @@
+
 import StatsCard from "@/components/StatsCard";
 import { tasks } from "@/data/tasks";
 import TaskChart from "@/components/TaskChart";
+
 export default function Home() {
   const total = tasks.length;
 
@@ -19,12 +21,21 @@ export default function Home() {
   const completionRate =
     total > 0 ? Math.round((completed / total) * 100) : 0;
 
+  const statistics = [
+    { title: "Total Tasks", value: total },
+    { title: "Completed", value: completed },
+    { title: "Pending", value: pending },
+    { title: "In Progress", value: inProgress },
+  ];
+
   return (
     <main className="dashboard">
       {/* Dashboard Header */}
       <section className="dashboard-header">
         <div>
-          <span className="dashboard-label">TASK MANAGER</span>
+          <span className="dashboard-label">
+            TASK MANAGER
+          </span>
 
           <h1>Dashboard</h1>
 
@@ -39,55 +50,42 @@ export default function Home() {
         </div>
       </section>
 
+      
       {/* Statistics */}
-      <section className="stats-container">
-        <StatsCard
-          title="Total Tasks"
-          value={total}
-        />
+<section className="stats-container">
+  <StatsCard statistics={statistics} />
+</section>
 
-        <StatsCard
-          title="Completed"
-          value={completed}
-        />
+      {/* Task Statistics Chart */}
+      <section className="dashboard-section">
+        <div className="section-header">
+          <div>
+            <span className="section-label">
+              ANALYTICS
+            </span>
 
-        <StatsCard
-          title="Pending"
-          value={pending}
-        />
+            <h2>Task Statistics</h2>
 
-        <StatsCard
-          title="In Progress"
-          value={inProgress}
+            <p>
+              Visual overview of your current task status.
+            </p>
+          </div>
+        </div>
+
+        <TaskChart
+          completed={completed}
+          pending={pending}
+          inProgress={inProgress}
         />
       </section>
-
-{/* Task Statistics Chart */}
-<section className="dashboard-section">
-  <div className="section-header">
-    <div>
-      <span className="section-label">ANALYTICS</span>
-
-      <h2>Task Statistics</h2>
-
-      <p>
-        Visual overview of your current task status.
-      </p>
-    </div>
-  </div>
-
-  <TaskChart
-    completed={completed}
-    pending={pending}
-    inProgress={inProgress}
-  />
-</section>
 
       {/* Task Overview */}
       <section className="dashboard-section">
         <div className="section-header">
           <div>
-            <span className="section-label">WORKSPACE</span>
+            <span className="section-label">
+              WORKSPACE
+            </span>
 
             <h2>Task Overview</h2>
 
@@ -137,3 +135,4 @@ export default function Home() {
     </main>
   );
 }
+
